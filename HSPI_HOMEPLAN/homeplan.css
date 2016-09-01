@@ -1,0 +1,51 @@
+﻿body {
+    text-align:center;
+}
+
+.ExterieurContainer {
+    background-color:transparent;
+  }
+
+.InterieurContainer { 
+    text-align:center; 
+    background-color:transparent;
+  
+}
+
+.Interieur {
+    text-align:center;
+    background-color:transparent;
+}
+
+.PieceContainer {
+    background-color:transparent;
+}
+
+.PieceTitre {
+    background-color:transparent;
+}
+
+.moduleContainer {
+    background-color:transparent;
+}
+
+.module {
+    background-color:transparent;
+    height:52px;
+    width:57px;
+}
+
+.moduleName {
+    background-color:transparent;
+}
+
+.moduleImage {
+    background-color:transparent;
+    height:57px;
+    width:57px;
+}
+
+.moduleValue {
+    background-color:transparent;
+}
+
