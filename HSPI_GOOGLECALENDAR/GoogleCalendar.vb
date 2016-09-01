@@ -50,8 +50,8 @@ Module GoogleCalendar
                     credPath = Path.Combine(credPath, ".credentials")
 
                     Dim cs As New ClientSecrets()
-                    cs.ClientId = "834172357305-0p5djrrf1uc57lgl9eq2h07u2kk7779b.apps.googleusercontent.com"
-                    cs.ClientSecret = "EBIYNdtcWlTqgR6by7GWJdG-"
+                    cs.ClientId = "a renseigner"
+                    cs.ClientSecret = "a resneigner"
 
                     credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                    cs,
