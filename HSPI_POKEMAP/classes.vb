@@ -81,12 +81,16 @@ Module classes
                                 If (diff.Minutes < 0 Or diff.Minutes > 45) Then
                                     Return
                                 End If
+                                Dim iv As Integer = Math.Round(msg.Message.iv * 100, 0)
                                 Dim html As String = "<table><td><img src='" & "\POKEMAP\icons\" & foundPokemon.ID & ".png'></td>"
-                                html += String.Format("<td> Un <b> {0} </b> ({1}) est apparu", foundPokemon.Name, foundPokemon.ID) + "<br>"
+                                html += String.Format("<td> <b> {0} </b> ({1}) : IV={2}% --> A:{3}|D:{4}|S:{5}", foundPokemon.Name, foundPokemon.ID, iv, msg.Message.individual_attack, msg.Message.individual_defense, msg.Message.individual_stamina) + "<br>"
                                 html += String.Format("Il disparaitra a {0} (soit dans {1}m {2}s)", dt.ToLongTimeString(), diff.Minutes, diff.Seconds) + "<br>"
                                 html += String.Format("<a href=" + url + ">Voir sur une carte </a> </td></tr></table>")
 
-                                Dim sms As String = foundPokemon.Name + "(" & foundPokemon.ID & ") --> " + dt.ToLongTimeString() + vbCrLf + url
+                                Dim sms As String = foundPokemon.Name + "(" & foundPokemon.ID & ") --> " + dt.ToLongTimeString() + vbCrLf
+                                sms += String.Format("IV={0} --> A:{1}|D:{2}|S:{3}", iv, msg.Message.individual_attack, msg.Message.individual_defense, msg.Message.individual_stamina) + vbCrLf
+                                sms += url
+
                                 logutils.Log(html, MessageType.Debug)
 
                                 Dim PokemonToNotifyFor As String()
@@ -115,7 +119,7 @@ Module classes
                     html += String.Format("<td>lured = a {0} (soit dans {1}m {2}s)</td>", dt.ToLongTimeString(), diff.Minutes, diff.Seconds)
                     html += String.Format("<td>enable : {0}</td>", msg.Message.enabled)
                     html += String.Format("<td><a href=" + url + ">Voir sur une carte </a> </td></tr></table>")
-                    logutils.Log(html, MessageType.Debug)
+                   ' logutils.Log(html, MessageType.Debug)
 
 
 
@@ -233,6 +237,48 @@ Module classes
 
         <JsonProperty("disappear_time")>
         Public Disappear_Time As Double
+
+        <JsonProperty("capture_probability_2")>
+        Public capture_probability_2 As Double
+
+        <JsonProperty("move_1")>
+        Public move_1 As Integer
+
+        <JsonProperty("individual_defense")>
+        Public individual_defense As Integer
+
+        <JsonProperty("weight")>
+        Public weight As Double
+
+        <JsonProperty("individual_stamina")>
+        Public individual_stamina As Integer
+
+        <JsonProperty("stamina_max")>
+        Public stamina_max As Integer
+
+        <JsonProperty("capture_probability_3")>
+        Public capture_probability_3 As Double
+
+        <JsonProperty("move_2")>
+        Public move_2 As Integer
+
+        <JsonProperty("height")>
+        Public height As Double
+
+        <JsonProperty("capture_probability_1")>
+        Public capture_probability_1 As Double
+
+        <JsonProperty("iv")>
+        Public iv As Double
+
+        <JsonProperty("individual_attack")>
+        Public individual_attack As Integer
+
+        <JsonProperty("stamina")>
+        Public stamina As Integer
+
+
+
     End Class
 
 
@@ -382,7 +428,7 @@ Module classes
             New PokemonListEntry("Magnemite", 81),
             New PokemonListEntry("Magneton", 82),
             New PokemonListEntry("Farfetch'd", 83),
-            New PokemonListEntry("Doduo", 84),
+                                                                                            New PokemonListEntry("Doduo", 84),
             New PokemonListEntry("Dodrio", 85),
             New PokemonListEntry("Seel", 86),
             New PokemonListEntry("Dewgong", 87),
