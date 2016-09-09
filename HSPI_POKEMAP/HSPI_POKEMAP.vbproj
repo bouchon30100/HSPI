@@ -228,6 +228,9 @@
   <PropertyGroup>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="HomeSeerAPI">
       <HintPath>..\..\HomeSeer\HomeSeerAPI.dll</HintPath>
@@ -314,6 +317,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="html\HSPI_VOLETS\Volet_0.png" />
+    <Content Include="favicon.ico" />
     <Content Include="html\HSPI_VOLETS\Volet_100.png" />
     <Content Include="html\HSPI_VOLETS\Volet_25.png" />
     <Content Include="html\HSPI_VOLETS\Volet_50.png" />

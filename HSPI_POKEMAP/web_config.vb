@@ -3,6 +3,7 @@ Imports System.Web
 Imports Scheduler
 Imports HomeSeerAPI
 Imports Scheduler.Classes
+Imports System.Threading
 
 Public Class web_config
     Inherits clsPageBuilder
@@ -21,7 +22,12 @@ Public Class web_config
         If (data <> "") Then
 
             If (parts("id") Is Nothing) Then
-                HandleRequest(data)
+                datas.Add(data)
+                Dim t As New TaskTraitementData(data)
+                Dim Thread1 As New Thread(AddressOf t.traite)
+                Thread1.Start() ' Démarrer le nouveau thread.
+                ' Thread1.Join() ' Attendre la fin du thread 1.
+
             Else
                 logutils.SaveLogLevel(parts)
             End If
@@ -34,6 +40,19 @@ Public Class web_config
 
         Return MyBase.postBackProc(page, data, user, userRights)
     End Function
+
+    Class TaskTraitementData
+        Friend data As String
+
+        Sub New(d As String)
+            data = d
+        End Sub
+
+        Sub traite()
+            HandleRequest(data)
+        End Sub
+    End Class
+
 
     Public Function GetPagePlugin(ByVal pageName As String, ByVal user As String, ByVal userRights As Integer, ByVal queryString As String) As String
         Dim stb As New StringBuilder

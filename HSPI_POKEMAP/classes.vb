@@ -12,7 +12,7 @@ Module classes
         Pokestop
         Gym
     End Enum
-    Dim HandledEncounters As New Dictionary(Of String, Double)
+
 
     Public Function DeserializeFromStream(data As String) As Object '(stream As Stream) As Object
 
@@ -33,7 +33,9 @@ Module classes
 
 
     Public Sub HandleRequest(data As String) '(request As HttpRequest)
-
+        counter += 1
+        Dim current = counter
+        '   hs.SaveINISetting("log", data, "1", "POKEMAPLOG.ini")
         Try
             RemoveOldPokemon()
         Catch ex As Exception
@@ -49,14 +51,14 @@ Module classes
             Select Case msg.MessageType
                 Case PokemonMessageTypes.Pokemon
                     '   fin du bloc déplacé
-                    Try
-            HandledEncounters.Clear()
-            For Each item As String In hs.GetINISectionEx("HandledEncounters", utils.INIFILE)
-                HandledEncounters.Add((item.Split("=")(0)).Replace("""", "="), item.Split("=")(1))
-            Next
-        Catch ex As Exception
-            logutils.Log("Add_HandleEncounters : " & ex.Message, MessageType.Error_)
-        End Try
+                    '   Try
+                    '   HandledEncounters.Clear()
+                    '    For Each item As String In hs.GetINISectionEx("HandledEncounters", utils.INIFILE)
+                    '           HandledEncounters.Add((item.Split("=")(0)).Replace("""", "="), item.Split("=")(1))
+                    '    Next
+                    'Catch ex As Exception
+                    '    logutils.Log("Add_HandleEncounters : " & ex.Message, MessageType.Error_)
+                    'End Try
 
                     'position du bloc déplacé
 
@@ -110,15 +112,15 @@ Module classes
                         End Try
                     End If
                 Case PokemonMessageTypes.Pokestop
-                    Dim loc As String = ""
-                    Dim dt As DateTime = UnixTimeStampToDateTime(msg.Message.lure_expiration) ' + TimeZoneInfo.Local.GetUtcOffset(DateTime.Now)
-                    Dim diff As TimeSpan = dt - DateTime.Now
-                    Dim url As String = String.Format("https://www.google.com/maps/dir/{2}/{0},{1}?hl=fr", CStr(msg.Message.Latitude).Replace(",", "."), CStr(msg.Message.Longitude).Replace(",", "."), Loc)
+                    'Dim loc As String = ""
+                    'Dim dt As DateTime = UnixTimeStampToDateTime(msg.Message.lure_expiration) ' + TimeZoneInfo.Local.GetUtcOffset(DateTime.Now)
+                    'Dim diff As TimeSpan = dt - DateTime.Now
+                    'Dim url As String = String.Format("https://www.google.com/maps/dir/{2}/{0},{1}?hl=fr", CStr(msg.Message.Latitude).Replace(",", "."), CStr(msg.Message.Longitude).Replace(",", "."), Loc)
 
-                    Dim html As String = "<table border='1'><td> pokestop n° " & msg.Message.pokestop_id & "</td>"
-                    html += String.Format("<td>lured = a {0} (soit dans {1}m {2}s)</td>", dt.ToLongTimeString(), diff.Minutes, diff.Seconds)
-                    html += String.Format("<td>enable : {0}</td>", msg.Message.enabled)
-                    html += String.Format("<td><a href=" + url + ">Voir sur une carte </a> </td></tr></table>")
+                    'Dim html As String = "<table border='1'><td> pokestop n° " & msg.Message.pokestop_id & "</td>"
+                    'html += String.Format("<td>lured = a {0} (soit dans {1}m {2}s)</td>", dt.ToLongTimeString(), diff.Minutes, diff.Seconds)
+                    'html += String.Format("<td>enable : {0}</td>", msg.Message.enabled)
+                    'html += String.Format("<td><a href=" + url + ">Voir sur une carte </a> </td></tr></table>")
                    ' logutils.Log(html, MessageType.Debug)
 
 
@@ -126,7 +128,7 @@ Module classes
                 Case PokemonMessageTypes.Gym
 
 
-                    logutils.Log("WebHook ARENE !!! ", MessageType.Debug)
+                    '   logutils.Log("WebHook ARENE !!! ", MessageType.Debug)
 
 
 
@@ -144,14 +146,14 @@ Module classes
 
 
 
-        Try
-            For Each item In HandledEncounters
-                hs.SaveINISetting("HandledEncounters", item.Key.Replace("=", """"), item.Value, utils.INIFILE)
-            Next
-        Catch ex As Exception
-            logutils.Log("Save des HandledEncounters : " & ex.Message, MessageType.Error_)
-        End Try
-
+        '    Try
+        '   For Each item In HandledEncounters
+        '   hs.SaveINISetting("HandledEncounters", item.Key.Replace("=", """"), item.Value, utils.INIFILE)
+        '   Next
+        '    Catch ex As Exception
+        '    logutils.Log("Save des HandledEncounters : " & ex.Message, MessageType.Error_)
+        '    End Try
+        '   hs.SaveINISetting("log", data, "", "POKEMAPLOG.ini")
     End Sub
 
 
@@ -163,7 +165,8 @@ Module classes
             ' If (time < currTime) Then
             ' hs.WriteLog("POKEMAP", currTime & " / " & time & " --> " & time.CompareTo(currTime))
             If (time.CompareTo(currTime) = -1) Then
-                hs.SaveINISetting("HandledEncounters", item.Split("=")(0), "", utils.INIFILE)
+                HandledEncounters.Remove(item.Split("=")(0))
+                ' hs.SaveINISetting("HandledEncounters", item.Split("=")(0), "", utils.INIFILE)
             End If
         Next
     End Sub
